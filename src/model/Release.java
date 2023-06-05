@@ -69,7 +69,7 @@ public class Release {
 
     @Override
     public String toString() {
-        return "Release {" + "Band=" + bandName + ", Album=" + album + ", Release_Date=" + releaseDate + ", Rating=" + rating + '}';
+        return "{ " + "Band=" + bandName + ", Album=" + album + ", Release_Date=" + releaseDate + ", Rating=" + rating + " }";
     }
     
     

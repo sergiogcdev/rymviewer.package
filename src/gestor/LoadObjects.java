@@ -131,7 +131,7 @@ public class LoadObjects {
     public List<Release> searchByBandName(String data, List<Release> list) throws Exception{
         this.filtered.clear();
         for(Release r : list) {
-            if(r.getBandName().equals(data)) this.filtered.add(r);
+            if(r.getBandName().toLowerCase().contains(data.toLowerCase())) this.filtered.add(r);
         }
         if(!this.filtered.isEmpty()) return this.filtered;
         return null;
