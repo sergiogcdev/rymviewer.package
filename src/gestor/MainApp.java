@@ -18,16 +18,16 @@ public class MainApp {
         LoadObjects loader = new LoadObjects();
         Menu menu = new Menu();
         
-        System.out.println("Do you want to load data? [y/N]");
+        menu.printMessage("Do you want to load data? [y/N]");
         Scanner scan = new Scanner(System.in);
         String c = scan.nextLine();
         if(c.equals("y") || c.equals("Y")) loader.main();
-        else System.out.println("Data not loaded");
+        else menu.printMessage("Data not loaded");
         menu.executeMenu();
         String data = menu.getData();
         String selected = menu.getSelectedOption();
-        loader.execute(selected, data);
-        
+        StringBuilder sb = loader.execute(selected, data);
+        menu.printMessage(sb.toString());
     }
     
 }

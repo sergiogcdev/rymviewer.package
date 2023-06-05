@@ -67,8 +67,10 @@ public class LoadObjects {
         }
     }
     
-    public void execute(String selected, String data) {
+    public StringBuilder execute(String selected, String data) {
+        StringBuilder sb = new StringBuilder();
         try {
+            
             JAXBContext jaxbContext = null;
             File sourceFile = new File("./resources/user_albums.xml");
             jaxbContext = JAXBContext.newInstance(ReleaseList.class);
@@ -82,34 +84,36 @@ public class LoadObjects {
                 case "1":
                     for(Release r: this.searchByBandName(data, list))
                     {
-                        System.out.println(r.toString());
+                        sb.append(r.toString() + "\n");
                     }
                     break;
                 case "2":
                     for(Release r: this.searchByYear(data, list))
                     {
-                        System.out.println(r.toString());
+                        sb.append(r.toString() + "\n");
                     }
                     break;
                 case "3":
                     for(Release r: this.searchByRating(data, list))
                     {
-                        System.out.println(r.toString());
+                        sb.append(r.toString() + "\n");
                     }
                     break;
                 case "4":
                     for(Release r: this.searchByYearNRating(data, list))
                     {
-                        System.out.println(r.toString());
+                        sb.append(r.toString() + "\n");
                     }
                     break;
                 case "5":
                     System.exit(0);
                     break;
             }
+            
         } catch(Exception ex) {
             System.out.println(ex.getMessage());
         }
+        return sb;
     }
     
     public List<Release> searchByBandName(String data, List<Release> list) throws Exception{

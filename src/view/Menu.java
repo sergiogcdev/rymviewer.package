@@ -83,6 +83,10 @@ public class Menu {
         }
         
     }
+    
+    public void printMessage(String msg){
+        System.out.println(msg);
+    }
 
     public String getData() {
         return data;
