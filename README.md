@@ -3,8 +3,6 @@ Jar file that filters your data of your "rateyourmusic" account
 
 (1) Open a terminal and enter the commands:
 ```bash
-mkdir RYMViewer
-cd RYMViewer
 git clone https://github.com/sergiogcdev/rymviewer.package.git
 cd rymviewer.package
 ```
