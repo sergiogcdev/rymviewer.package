@@ -1,5 +1,5 @@
 # rymviewer.package
-Jar file that filters your data of your "rateyourmusic" account
+Jar file that filters the data of your "rateyourmusic" account and save the data in a XML database (in resources folder).
 
 (1) Open a terminal and enter the commands:
 ```bash
