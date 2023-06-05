@@ -106,6 +106,18 @@ public class LoadObjects {
                     }
                     break;
                 case "5":
+                    int rating = this.getAverageRatingByYear(data, list);
+                    if(rating > 0) sb.append( "Average rating of " + data + ": " + rating + "\n");
+                    else sb.append("null");
+                    break;
+                case "6":
+                    for(Release r: this.searchBetweenTwoRatings(data, list))
+                    {
+                        
+                        sb.append(r.toString() + "\n");
+                    }
+                    break;
+                case "7":
                     System.exit(0);
                     break;
             }
@@ -154,6 +166,33 @@ public class LoadObjects {
         }
         if(!this.filtered.isEmpty()) return this.filtered;
         return null;
+    }
+    
+    private int getAverageRatingByYear(String data, List<Release> list) throws Exception {
+        int average = 0, cont = 0, sum = 0;
+        for(Release r : list) {
+            if(String.valueOf(r.getReleaseDate()).equals(data)) {
+                sum += r.getRating();
+                cont += 1;
+            }
+            
+        }
+        if(cont > 0) average = sum/cont;
+        else average = 0;
+        return average;
+    }
+
+    private List<Release> searchBetweenTwoRatings(String data, List<Release> list) throws Exception {
+        this.filtered.clear();
+        String rating1 = data.split(",")[0].trim();
+        String rating2 = data.split(",")[1].trim();
+        for(Release r : list) {
+            if(r.getRating() >= Integer.valueOf(rating1) && r.getRating() <= Integer.valueOf(rating2))
+                this.filtered.add(r);
+        }
+        if(!this.filtered.isEmpty()) return this.filtered;
+        return null;
+        
     }
     
 }

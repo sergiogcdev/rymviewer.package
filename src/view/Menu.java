@@ -45,7 +45,11 @@ public class Menu {
         list.add(opt);
         opt = new Option(4, "Search by year and rating");
         list.add(opt);
-        opt = new Option(5, "Exit");
+        opt = new Option(5, "Get average rating by year");
+        list.add(opt);
+        opt = new Option(6, "Get albums between two ratings");
+        list.add(opt);
+        opt = new Option(7, "Exit");
         list.add(opt);
         OptionList options = new OptionList(list);
         return options;
@@ -74,6 +78,19 @@ public class Menu {
                 this.data = year.trim() + ", " + rating.trim();
                 break;
             case "5":
+                System.out.println("Introduce the year of the releases: ");
+                String averageYear = this.scan.nextLine();
+                this.data = averageYear.trim();
+                break;
+            case "6":
+                Scanner sc = new Scanner(System.in);
+                System.out.println("Introduce the minimum rating: ");
+                String rating1 = sc.nextLine();
+                System.out.println("Introduce the maximum rating: ");
+                String rating2 = sc.nextLine();
+                this.data = rating1.trim() + ", " + rating2.trim();
+                break;
+            case "7":
                 System.out.println("Saliendo...");
                 this.data = "exit";
                 break;
