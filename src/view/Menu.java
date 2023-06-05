@@ -49,7 +49,9 @@ public class Menu {
         list.add(opt);
         opt = new Option(6, "Get albums between two ratings");
         list.add(opt);
-        opt = new Option(7, "Exit");
+        opt = new Option(7, "Get albums between two ratings by year");
+        list.add(opt);
+        opt = new Option(8, "Exit");
         list.add(opt);
         OptionList options = new OptionList(list);
         return options;
@@ -91,6 +93,15 @@ public class Menu {
                 this.data = rating1.trim() + ", " + rating2.trim();
                 break;
             case "7":
+                System.out.println("Introduce the minimum rating: ");
+                String r1 = this.scan.nextLine();
+                System.out.println("Introduce the maximum rating: ");
+                String r2 = this.scan.nextLine();
+                System.out.println("Introduce the year of the releases: ");
+                String y = this.scan.nextLine();
+                this.data = r1.trim() + ", " + r2.trim() + ", " + y.trim();
+                break;
+            case "8":
                 System.out.println("Saliendo...");
                 this.data = "exit";
                 break;

@@ -28,6 +28,14 @@ public class MainApp {
         String selected = menu.getSelectedOption();
         StringBuilder sb = loader.execute(selected, data);
         menu.printMessage(sb.toString());
+        menu.printMessage("Do you want to save the results in a XML document? [y/N]");
+        c = scan.nextLine();
+        if(c.equals("y") || c.equals("Y")) {
+            menu.printMessage("Introduce the filename (without format)");
+            String fileName = scan.nextLine();
+            if(loader.extractResultsIntoFile(fileName) == 1) menu.printMessage("The results are saved in resources/" + fileName + ".xml");
+            else menu.printMessage("The results cannot be saved");
+        }
     }
     
 }

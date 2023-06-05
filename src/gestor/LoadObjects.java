@@ -113,11 +113,16 @@ public class LoadObjects {
                 case "6":
                     for(Release r: this.searchBetweenTwoRatings(data, list))
                     {
-                        
                         sb.append(r.toString() + "\n");
                     }
                     break;
                 case "7":
+                    for(Release r: this.searchBetweenTwoRatingsByYear(data, list))
+                    {
+                        sb.append(r.toString() + "\n");
+                    }
+                    break;
+                case "8":
                     System.exit(0);
                     break;
             }
@@ -126,6 +131,24 @@ public class LoadObjects {
             System.out.println(ex.getMessage());
         }
         return sb;
+    }
+    
+    public int extractResultsIntoFile(String fileName){
+        try {
+            if(!this.filtered.isEmpty()) {
+                ReleaseList resultCatalog = new ReleaseList(this.filtered);
+                File destFile = new File("resources/" + fileName + ".xml");
+                JAXBContext jaxbContext = null;
+                jaxbContext = JAXBContext.newInstance(ReleaseList.class);
+                Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+                jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                jaxbMarshaller.marshal(resultCatalog, destFile);
+                return 1;
+            }
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
     }
     
     public List<Release> searchByBandName(String data, List<Release> list) throws Exception{
@@ -140,7 +163,7 @@ public class LoadObjects {
     public List<Release> searchByYear(String data, List<Release> list) throws Exception {
         this.filtered.clear();
         for(Release r : list) {
-            if(String.valueOf(r.getReleaseDate()).equals(data)) this.filtered.add(r);
+            if(String.valueOf(r.getReleaseDate()).equals(data.trim())) this.filtered.add(r);
         }
         if(!this.filtered.isEmpty()) return this.filtered;
         return null;
@@ -149,7 +172,7 @@ public class LoadObjects {
     public List<Release> searchByRating(String data, List<Release> list) throws Exception{
         this.filtered.clear();
         for(Release r : list) {
-            if(String.valueOf(r.getRating()).equals(data)) this.filtered.add(r);
+            if(String.valueOf(r.getRating()).equals(data.trim())) this.filtered.add(r);
         }
         if(!this.filtered.isEmpty()) return this.filtered;
         return null;
@@ -169,13 +192,13 @@ public class LoadObjects {
     }
     
     private int getAverageRatingByYear(String data, List<Release> list) throws Exception {
+        this.filtered.clear();
         int average = 0, cont = 0, sum = 0;
         for(Release r : list) {
             if(String.valueOf(r.getReleaseDate()).equals(data)) {
                 sum += r.getRating();
                 cont += 1;
             }
-            
         }
         if(cont > 0) average = sum/cont;
         else average = 0;
@@ -193,6 +216,21 @@ public class LoadObjects {
         if(!this.filtered.isEmpty()) return this.filtered;
         return null;
         
+    }
+
+    private List<Release> searchBetweenTwoRatingsByYear(String data, List<Release> list) throws Exception {
+    this.filtered.clear();
+        String rating1 = data.split(",")[0].trim();
+        String rating2 = data.split(",")[1].trim();
+        String year = data.split(",")[2].trim();
+        for(Release r : list) {
+            if(String.valueOf(r.getReleaseDate()).equals(year)){
+                if(r.getRating() >= Integer.valueOf(rating1) && r.getRating() <= Integer.valueOf(rating2))
+                this.filtered.add(r);
+            }
+        }
+        if(!this.filtered.isEmpty()) return this.filtered;
+        return null;
     }
     
 }
