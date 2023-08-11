@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import model.DataOp;
 import model.Release;
 import model.ReleaseList;
 
@@ -20,7 +21,7 @@ import model.ReleaseList;
  */
 public class LoadObjects {
     
-    private List<Release> filtered = new ArrayList<>();
+    private DataOp model = new DataOp();
     
     
     public void main() {
@@ -82,42 +83,42 @@ public class LoadObjects {
             
             switch(selected) {
                 case "1":
-                    for(Release r: this.searchByBandName(data, list))
+                    for(Release r: this.model.searchByBandName(data, list))
                     {
                         sb.append(r.toString() + "\n");
                     }
                     break;
                 case "2":
-                    for(Release r: this.searchByYear(data, list))
+                    for(Release r: this.model.searchByYear(data, list))
                     {
                         sb.append(r.toString() + "\n");
                     }
                     break;
                 case "3":
-                    for(Release r: this.searchByRating(data, list))
+                    for(Release r: this.model.searchByRating(data, list))
                     {
                         sb.append(r.toString() + "\n");
                     }
                     break;
                 case "4":
-                    for(Release r: this.searchByYearNRating(data, list))
+                    for(Release r: this.model.searchByYearNRating(data, list))
                     {
                         sb.append(r.toString() + "\n");
                     }
                     break;
                 case "5":
-                    int rating = this.getAverageRatingByYear(data, list);
+                    int rating = this.model.getAverageRatingByYear(data, list);
                     if(rating > 0) sb.append( "Average rating of " + data + ": " + rating + "\n");
                     else sb.append("null");
                     break;
                 case "6":
-                    for(Release r: this.searchBetweenTwoRatings(data, list))
+                    for(Release r: this.model.searchBetweenTwoRatings(data, list))
                     {
                         sb.append(r.toString() + "\n");
                     }
                     break;
                 case "7":
-                    for(Release r: this.searchBetweenTwoRatingsByYear(data, list))
+                    for(Release r: this.model.searchBetweenTwoRatingsByYear(data, list))
                     {
                         sb.append(r.toString() + "\n");
                     }
@@ -135,8 +136,8 @@ public class LoadObjects {
     
     public int extractResultsIntoFile(String fileName){
         try {
-            if(!this.filtered.isEmpty()) {
-                ReleaseList resultCatalog = new ReleaseList(this.filtered);
+            if(!this.model.getFiltered().isEmpty()) {
+                ReleaseList resultCatalog = new ReleaseList(this.model.getFiltered());
                 File destFile = new File("resources/" + fileName + ".xml");
                 JAXBContext jaxbContext = null;
                 jaxbContext = JAXBContext.newInstance(ReleaseList.class);
@@ -149,88 +150,6 @@ public class LoadObjects {
             System.out.println(ex.getMessage());
         }
         return 0;
-    }
-    
-    public List<Release> searchByBandName(String data, List<Release> list) throws Exception{
-        this.filtered.clear();
-        for(Release r : list) {
-            if(r.getBandName().toLowerCase().contains(data.toLowerCase())) this.filtered.add(r);
-        }
-        if(!this.filtered.isEmpty()) return this.filtered;
-        return null;
-    }
-    
-    public List<Release> searchByYear(String data, List<Release> list) throws Exception {
-        this.filtered.clear();
-        for(Release r : list) {
-            if(String.valueOf(r.getReleaseDate()).equals(data.trim())) this.filtered.add(r);
-        }
-        if(!this.filtered.isEmpty()) return this.filtered;
-        return null;
-    }
-    
-    public List<Release> searchByRating(String data, List<Release> list) throws Exception{
-        this.filtered.clear();
-        for(Release r : list) {
-            if(String.valueOf(r.getRating()).equals(data.trim())) this.filtered.add(r);
-        }
-        if(!this.filtered.isEmpty()) return this.filtered;
-        return null;
-    }
-    
-    public List<Release> searchByYearNRating(String data, List<Release> list) throws Exception {
-        
-        this.filtered.clear();
-        String year = data.split(",")[0].trim();
-        String rating = data.split(",")[1].trim();
-        for(Release r : list) {
-            if(String.valueOf(r.getReleaseDate()).equals(year) && String.valueOf(r.getRating()).equals(rating))
-                this.filtered.add(r);
-        }
-        if(!this.filtered.isEmpty()) return this.filtered;
-        return null;
-    }
-    
-    private int getAverageRatingByYear(String data, List<Release> list) throws Exception {
-        this.filtered.clear();
-        int average = 0, cont = 0, sum = 0;
-        for(Release r : list) {
-            if(String.valueOf(r.getReleaseDate()).equals(data)) {
-                sum += r.getRating();
-                cont += 1;
-            }
-        }
-        if(cont > 0) average = sum/cont;
-        else average = 0;
-        return average;
-    }
-
-    private List<Release> searchBetweenTwoRatings(String data, List<Release> list) throws Exception {
-        this.filtered.clear();
-        String rating1 = data.split(",")[0].trim();
-        String rating2 = data.split(",")[1].trim();
-        for(Release r : list) {
-            if(r.getRating() >= Integer.valueOf(rating1) && r.getRating() <= Integer.valueOf(rating2))
-                this.filtered.add(r);
-        }
-        if(!this.filtered.isEmpty()) return this.filtered;
-        return null;
-        
-    }
-
-    private List<Release> searchBetweenTwoRatingsByYear(String data, List<Release> list) throws Exception {
-    this.filtered.clear();
-        String rating1 = data.split(",")[0].trim();
-        String rating2 = data.split(",")[1].trim();
-        String year = data.split(",")[2].trim();
-        for(Release r : list) {
-            if(String.valueOf(r.getReleaseDate()).equals(year)){
-                if(r.getRating() >= Integer.valueOf(rating1) && r.getRating() <= Integer.valueOf(rating2))
-                this.filtered.add(r);
-            }
-        }
-        if(!this.filtered.isEmpty()) return this.filtered;
-        return null;
     }
     
 }

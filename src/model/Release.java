@@ -69,7 +69,8 @@ public class Release {
 
     @Override
     public String toString() {
-        return "{ " + "Band=" + bandName + ", Album=" + album + ", Release_Date=" + releaseDate + ", Rating=" + rating + " }";
+        //return "{ " + "Band=" + bandName + ", Album=" + album + ", Release_Date=" + releaseDate + ", Rating=" + rating + " }";
+        return bandName + " - " + album + " (" + releaseDate + ") [ " + rating + " / 10 ]";
     }
     
     
