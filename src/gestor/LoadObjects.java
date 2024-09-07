@@ -45,7 +45,10 @@ public class LoadObjects {
                 String bandName = line.split(",\"")[2].replace("\"", "");
                 String album = line.split(",\"")[5].replace("\"", "");
                 String releaseDateStr = line.split(",\"")[6].replace("\"", "");
-                int releaseDate = Integer.valueOf(releaseDateStr);
+                int releaseDate = 0;
+                if(!releaseDateStr.equals("")) {
+                    releaseDate = Integer.valueOf(releaseDateStr);
+                }
                 String ratingStr = line.split(",\"")[7].replace("\"", "");
                 int rating = Integer.valueOf(ratingStr);
                 
